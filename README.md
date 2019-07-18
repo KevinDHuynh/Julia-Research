@@ -1,5 +1,8 @@
 # Julia-Research
 Analyzing Julia performance vs MPI
 
+In command line, run:
 
-- have to add LIBRARY_PATH and LD_LIBRARY_PATH configurations, will add these tomorrow morning!
+```
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/;/opt/sw/julia/lib;/opt/sw/julia/lib/julia
+```

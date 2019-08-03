@@ -2,22 +2,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "myheader.h"
-
+#include <omp.h>
 
 int main(int argc, char** argv){
 
-    int n=100;
+    int n=100000;
     int numprimes = 0;
     int i;
-
-    for (i = 1; i <= n; i++)
-    {
-        if (is_prime(i) == 1)
-            numprimes ++;
-    }
-
-    printf("Number of Primes: %d\n",numprimes);
-
+	int tid;
+	#pragma omp parallel default(shared) private(tid)
+	{
+		
+		double start = omp_get_wtime();
+		tid = omp_get_thread_num();
+		
+		if (tid==0){
+			int nthreads = omp_get_num_threads();
+			printf("Number of threads: %d\n", nthreads);
+		}
+		
+		#pragma omp for reduction(+:numprimes)
+		for (i = 1; i <= n; i++)
+		{
+			{
+				if (is_prime(i) == 1)
+					numprimes++;
+			}
+		}
+		double end = omp_get_wtime();
+	
+		printf("Thread ID: %d Time: %f\n",tid,end-start);
+		if (tid == 0)
+			printf("Number of Primes: %d\n",numprimes);
+	}
 
     return 0;
 

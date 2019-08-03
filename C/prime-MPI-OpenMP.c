@@ -8,8 +8,7 @@
 int main(int argc, char** argv){
 
     int n=100000;
-    int* numprimes = (int*) malloc(sizeof(int));
-	numprimes[0] = 0;
+    int* numprimes = {0};
 	int* finalNumprimes = (int*) malloc(sizeof(int));
 	int size,rank;
 	int i;

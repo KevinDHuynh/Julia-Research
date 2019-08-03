@@ -5,7 +5,7 @@
 
 int main(int argc, char** argv){
 
-    int n=100;
+    int n=1000000;
     int numprimes = 0;
     int i;
 

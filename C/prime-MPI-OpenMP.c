@@ -3,13 +3,12 @@
 #include <stdlib.h>
 #include "myheader.h"
 #include "mpi.h"
-
+#include <omp.h>
 
 int main(int argc, char** argv){
 
     int n=100000;
-    int* numprimes = {0};
-	int* finalNumprimes = (int*) malloc(sizeof(int));
+    int numprimes = 0;
 	int size,rank;
 	int i;
 	
@@ -25,13 +24,30 @@ int main(int argc, char** argv){
 			else split[i] = (n/size) * i;
 	}	
 	
-    for(i = split[rank]; i <= split[rank+1]; i++){
-        if (is_prime(i) == 1)
-            numprimes[0]++;
-    }
-
-
-	MPI_Reduce(numprimes,finalNumprimes,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
+	int tid;
+	#pragma omp parallel default(shared) private(tid) num_threads(4)
+	{	
+		double start = omp_get_wtime();
+		tid = omp_get_thread_num();
+		
+		if (tid==0 && rank==0){
+			int nthreads = omp_get_num_threads();
+			printf("Number of ranks: %d\n", size);
+			printf("Number of threads: %d\n", nthreads);
+		}
+		#pragma omp for reduction(+:numprimes)
+		for(i = split[rank]; i <= split[rank+1]; i++){
+			if (is_prime(i) == 1)
+				numprimes++;
+		}
+		
+		double end = omp_get_wtime();
+		printf("Rank ID: %d Thread ID: %d Time: %f\n",rank,tid,end-start);
+	}
+	int* numprimesSend = (int*) malloc(sizeof(int));
+	numprimesSend[0]=numprimes;
+	int* finalNumprimes = (int*) malloc(sizeof(int));
+	MPI_Reduce(numprimesSend,finalNumprimes,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
 	
 	if(rank == 0)
 		printf("Number of Primes: %d\n",finalNumprimes[0]);

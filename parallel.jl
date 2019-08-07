@@ -31,10 +31,14 @@ end
 main()
 
 
-println("Thread ID:")
+println("Number of Threads:")
+println(Threads.nthreads())
+
+println("Current Thread ID:")
 println(Threads.threadid())
 
 
 
 println("Number of Primes: ")
 println(numprimes)
+

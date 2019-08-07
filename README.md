@@ -9,6 +9,6 @@ export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/;/opt/sw/julia/lib;/opt/sw/julia/l
 ```
 To run Julia in interactive mode on Reinhardt, run:
 ```
-/opt/sw/julia/bin/julia
+/opt/sw/julia-1.1.1/bin/julia
 ```
 

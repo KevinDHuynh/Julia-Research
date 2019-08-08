@@ -9,4 +9,4 @@
 export JULIA_NUM_THREADS=4
 
 cd ~/Julia-Research/
-./parallel.jl
+./primes_multi_threaded.jl

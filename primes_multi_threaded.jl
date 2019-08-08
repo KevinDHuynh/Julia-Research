@@ -1,3 +1,5 @@
+#!/opt/sw/julia-1.1.1/bin/julia
+
 n = 10000000;
 numprimes = 0;
 

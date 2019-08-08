@@ -1,0 +1,12 @@
+#PBS -l nodes=4:ppn=12,walltime=00:05:00
+#PBS -q batch
+#PBS -N Primes_Julia
+#PBS -j oe
+#PBS -V
+
+#cat $PBS_NODEFILE
+
+export JULIA_NUM_THREADS=2
+
+cd ~/Julia-Research/
+./primes_multi_threaded.jl -p 4

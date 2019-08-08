@@ -6,7 +6,7 @@
 
 #cat $PBS_NODEFILE
 
-export JULIA_NUM_THREADS=4
+export JULIA_NUM_THREADS=2
 
 cd ~/Julia-Research/
-./primes_multi_threaded.jl
+./primes_multi_threaded.jl -p 4

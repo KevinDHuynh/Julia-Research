@@ -20,17 +20,18 @@ end
 
 
 
-function main()
+function primes_main()
 	threadprimes = Threads.Atomic{Int}(0)
 	Threads.@threads for i = 1:n
 		if is_prime(i) == 1
-			global numprimes = Threads.atomic_add!(threadprimes, 1)
+			Threads.atomic_add!(threadprimes, 1)
 		end
 	end
+	global numprimes = threadprimes[]
 end
 
 
-main()
+primes_main()
 
 
 println("Number of Threads:")

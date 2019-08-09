@@ -8,5 +8,6 @@
 
 export JULIA_NUM_THREADS=4
 
-cd ~/Julia-Research/
+cd ~/finalProject/Julia-Research/
 ./primes_multi_node.jl -p 4
+# ./primes_serial.jl 

@@ -26,17 +26,12 @@ function prime_main()
 	mystart = (myid()-2)*perProc
 	myend = (myid()-1)*perProc
 	@printf "worker %d has start %d and end %d\n" myid() mystart myend
-    for i = mystart:myend
-        if is_prime(i) == 1
+	for i = mystart:myend
+                if is_prime(i) == 1
 			global numprimes += 1
 			temp += 1
 		end
-		#Int(is_prime(i) == 1)
 	end
-	# nheads = @distributed (+) for i = 1:200000000
-    # 	Int(rand(Bool))
-	# end
-	#@printf "nheads: %d\n" nheads
 	println("Number of primes within prime_main:")
 	println(temp)
     return temp
@@ -46,23 +41,20 @@ end
 #temp = prime_main(n)
 #@printf "temp in worker %d: %d\n" myid() temp
 
-
-#println("Number of Threads:")
-#println(Threads.nthreads())
-
-#println("Current Thread ID:")
-#println(Threads.threadid())
 sum = 0
+
 if(myid() == 1)
 	#sum up primes from other workers
 	calcstart = time()
 	for i = 2:nprocs()
-		global sum += remotecall_fetch(prime_main, i)
+		# global sum .+= remotecall_fetch(prime_main, i)
+		global sum = remotecall(prime_main, nprocs()-1)
 	end
+	fetch(sum)
 	println("Number of Primes: ")
-	println(sum)
+	# println(sum)
 	calcend = time()
-	@printf "total time taken: %f\n" (calcend - calcstart)
+	# @printf "total time taken: %f\n" (calcend - calcstart)
 end
 
 println("Number of Primes outside prime_main: ")

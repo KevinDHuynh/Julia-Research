@@ -1,6 +1,6 @@
 #!/opt/sw/julia-1.1.1/bin/julia
 
-n=10000000;
+n=30000000;
 numprimes = 0;
 
 function is_prime(n)
@@ -21,7 +21,7 @@ end
 
 for i = 1:n
 	if is_prime(i) == 1
-		numprimes += 1
+		global numprimes += 1
 	end
 end
 

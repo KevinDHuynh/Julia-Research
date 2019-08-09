@@ -55,9 +55,13 @@ end
 sum = 0
 if(myid() == 1)
 	#sum up primes from other workers
+	futures = Array{Future, 1}(undef, (nprocs()-1))
 	calcstart = time()
 	for i = 2:nprocs()
-		global sum += remotecall_fetch(prime_main, i)
+		futures[i-1] = remotecall(prime_main, i)
+	end
+	for i = 2:nprocs()
+		global sum += fetch(futures[i-1])
 	end
 	println("Number of Primes: ")
 	println(sum)
@@ -65,7 +69,7 @@ if(myid() == 1)
 	@printf "total time taken: %f\n" (calcend - calcstart)
 end
 
-println("Number of Primes outside prime_main: ")
-println(sum)
+# println("Number of Primes outside prime_main: ")
+# println(sum)
 
 numprimes = 0;

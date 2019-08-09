@@ -1,3 +1,5 @@
+#!/opt/sw/julia-1.1.1/bin/julia
+
 using Distributed
 using Printf
 n = 10000000;
